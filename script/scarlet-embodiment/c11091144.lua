@@ -31,7 +31,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 s.listed_names={53930930,89155913,id} --"Embodiment of Scarlet Devil"/"Flandre the Scalet Devil's Sister"
-s.listed_series={0x322}
+s.listed_series={SET_SCARLET}
 function s.plfilter(c,tp)
 	return c:IsCode(53930930) and not c:IsForbidden() and c:CheckUniqueOnField(tp)
 end
