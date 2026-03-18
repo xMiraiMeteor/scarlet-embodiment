@@ -1,4 +1,5 @@
 --Remilia the Eternal Young Scarlet Moon
+--AUTHOR'S NOTE: I will admit, this is just a rip-off of Dark MAgician of Destruction. I was curious to try its "Only 1 Summon method per turn" mechanic.
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
