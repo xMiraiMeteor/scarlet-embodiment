@@ -57,7 +57,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.thfilter(c)
-	return (c:IsCode(89155913) or c:ListsCode(89155913)) and c:IsAbleToHand() and not c:IsCode(id)
+	return (c:IsCode(CARD_FLANDRE_SCARLET) or c:ListsCode(CARD_FLANDRE_SCARLET)) and c:IsAbleToHand() and not c:IsCode(id)
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end
