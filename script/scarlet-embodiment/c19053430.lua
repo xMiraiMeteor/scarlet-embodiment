@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	Fusion.AddProcMix(c,true,true,19053430,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK))
+	Fusion.AddProcMix(c,true,true,11091144,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK))
 	c:AddMustBeFusionSummoned()
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
