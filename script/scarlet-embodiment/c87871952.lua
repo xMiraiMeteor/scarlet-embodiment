@@ -63,7 +63,7 @@ function s.lizfilter(e,c)
 	return not c:IsOriginalAttribute(ATTRIBUTE_DARK)
 end
 function s.repfilter(c,tp)
-	return c:IsFaceup() and c:IsSetCard(0x322) and not c:IsReason(REASON_REPLACE)
+	return c:IsFaceup() and c:IsSetCard(0x322) and c:IsMonster() and not c:IsReason(REASON_REPLACE)
 		and c:IsOnField() and c:IsControler(tp) and c:IsReason(REASON_EFFECT|REASON_BATTLE)
 end
 function s.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
