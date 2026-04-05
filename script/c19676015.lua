@@ -1,10 +1,17 @@
 --Scarlet Nights
 local s,id=GetID()
 function s.initial_effect(c)
-    --Fusion Summon 1 "Scarlet" Fusion Monster; materials from hand or field
-	local e1=Fusion.CreateSummonEff(c,aux.FilterBoolFunction(Card.IsSetCard,0x322),nil,s.fextra,s.extraop,nil,nil,nil,nil,nil,nil,nil,nil,nil,s.extratg)
+    --Fusion Summon 1 DARK Fusion Monster (Warrior, Spellcaster, or Fiend); materials from hand or field; extra banish material from GY if Summoning a "Scarlet" monster
+	local params = {fusfilter=aux.FilterBoolFunction(Card.IsRace,RACE_FIEND),extrafil=s.fextra,extraop=s.extraop,extratg=s.extratarget}
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,0))
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetRange(LOCATION_SZONE)
 	e1:SetCountLimit(1,id)
-	c:RegisterEffect(e1)
+	e1:SetTarget(Fusion.SummonEffTG(params))
+	e1:SetOperation(Fusion.SummonEffOP(params))
+	c:RegisterEffect(e2)
 	local e2=Effect.CreateEffect(c)
     --2 "Scarlet" monsters, add 1, place 1 on bottom of Deck
 	e2:SetDescription(aux.Stringid(id,0))
@@ -21,12 +28,12 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
-function s.fcheck(tp,sg,fc)
-	return sg:FilterCount(Card.IsLocation,nil,LOCATION_EXTRA|LOCATION_DECK)<=1
+function s.checkmat(tp,sg,fc)
+	return fc:IsSetCard(0x322) or not sg:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)
 end
 function s.fextra(e,tp,mg)
-	if Duel.IsExistingMatchingCard(Card.IsSummonLocation,tp,0,LOCATION_MZONE,1,nil,LOCATION_EXTRA) then
-		return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(s.exfilter),tp,LOCATION_GRAVE,0,nil)
+	if not Duel.IsPlayerAffectedByEffect(tp,CARD_SPIRIT_ELIMINATION) then
+		return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsAbleToRemove),tp,LOCATION_GRAVE,0,nil),s.checkmat
 	end
 	return nil
 end
@@ -37,10 +44,7 @@ function s.extraop(e,tc,tp,sg)
 		sg:Sub(rg)
 	end
 end
-function s.exfilter(c)
-	return c:IsMonster() and c:IsSetCard(0x322) and c:IsAbleToRemove()
-end
-function s.extratg(e,tp,eg,ep,ev,re,r,rp,chk)
+function s.extratarget(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetPossibleOperationInfo(0,CATEGORY_REMOVE,nil,0,tp,LOCATION_GRAVE)
 end
