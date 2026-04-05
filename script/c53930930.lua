@@ -71,7 +71,7 @@ end
 function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local g=Duel.GetMatchingGroup(nil,tp,LOCATION_MZONE,0,nil)
-	Duel.Remove(g,REASON_EFFECT)
+	Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 end
 function s.spfilter(c,e,tp)
 	return c:IsCode(11091144,89155913) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
