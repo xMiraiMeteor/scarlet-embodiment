@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	e1:SetCountLimit(1,id)
 	e1:SetTarget(Fusion.SummonEffTG(params))
 	e1:SetOperation(Fusion.SummonEffOP(params))
-	c:RegisterEffect(e2)
+	c:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(c)
     --2 "Scarlet" monsters, add 1, place 1 on bottom of Deck
 	e2:SetDescription(aux.Stringid(id,0))
