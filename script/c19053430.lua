@@ -48,6 +48,8 @@ function s.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE)
 	e4:SetCode(EFFECT_PIERCE)
 	c:RegisterEffect(e4)
+	--DARK monster activation
+	Duel.AddCustomActivityCounter(id,ACTIVITY_CHAIN,function(re,tp,cid) return not (re:IsMonsterEffect() and re:GetHandler():IsAttribute(ATTRIBUTE_DARK)) end)
 end
 s.listed_names={11091144}
 s.listed_series={0x322}
@@ -66,13 +68,14 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.selfspcostfilter(c,tp,sc)
-	return c:IsLevelAbove(7) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_FIEND)
+	return c:IsLevelAbove(7) and c:IsRace(RACE_FIEND)
 		and c:IsAbleToRemoveAsCost() and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
 function s.selfspcon(e,c)
 	if not c then return true end
 	local tp=c:GetControler()
-	return Duel.IsExistingMatchingCard(s.selfspcostfilter,tp,LOCATION_MZONE,0,1,nil,tp,c)
+	return (Duel.GetCustomActivityCount(id,tp,ACTIVITY_CHAIN)>0 or Duel.GetCustomActivityCount(id,1-tp,ACTIVITY_CHAIN)>0)
+		and Duel.IsExistingMatchingCard(s.selfspcostfilter,tp,LOCATION_MZONE,0,1,nil,tp,c)
 end
 function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
