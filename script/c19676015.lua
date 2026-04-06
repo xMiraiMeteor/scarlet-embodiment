@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
     --Fusion Summon 1 DARK Fusion Monster (Warrior, Spellcaster, or Fiend); materials from hand or field; extra banish material from GY if Summoning a "Scarlet" monster
-	local params = {fusfilter=aux.FilterBoolFunction(Card.IsRace,RACE_FIEND),extrafil=s.fextra,extraop=s.extraop,extratg=s.extratarget}
+	local params = {fusfilter=aux.FilterBoolFunction(s.ffilter),extrafil=s.fextra,extraop=s.extraop,extratg=s.extratarget}
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
@@ -29,6 +29,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
+function s.ffilter(c)
+	return c:IsAttribute(ATTRIBUTE_DARK) and (c:IsRace(RACE_WARRIOR) or c:IsRace(RACE_SPELLCASTER) or c:IsRace(RACE_FIEND))
+end
 function s.checkmat(tp,sg,fc)
 	return fc:IsSetCard(0x322) or not sg:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)
 end
