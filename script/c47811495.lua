@@ -34,7 +34,7 @@ function s.matfilter(c,lc,sumtype,tp)
 	return c:IsAttribute(ATTRIBUTE_DARK,lc,sumtype,tp) and not c:IsType(TYPE_LINK,lc,sumtype,tp)
 end
 function s.thfilter(c)
-	return c:IsSetCard(0x322) and c:IsNormalSpellTrap() and c:IsAbleToHand()
+	return c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToHand() and not c:IsQuickPlaySpell()
 end
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLinkSummoned()
