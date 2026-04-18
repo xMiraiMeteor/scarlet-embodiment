@@ -70,7 +70,6 @@ end
 function s.lizfilter(e,c)
 	return not c:IsOriginalAttribute(ATTRIBUTE_DARK)
 end
-end
 function s.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x322) and not c:IsCode(id)
 end
