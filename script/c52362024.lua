@@ -71,7 +71,7 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function s.tdfilter(c,e,tp)
-	return  c:IsSetCard(0x322) and c:IsNormalSpellTrap() and c:IsAbleToDeck()
+	return  c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToDeck()
 end
 function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE|LOCATION_REMOVED) and chkc:IsControler(tp) and s.tdfilter(chkc) end
