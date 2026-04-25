@@ -11,7 +11,7 @@ function s.initial_effect(c)
     e1:SetCondition(s.spcon)
     c:RegisterEffect(e1)
     --Place 1 "Scarlet" Spell/Trap from GY or banishment to bottom of Deck, then draw 1
-	local e1=Effect.CreateEffect(c)
+	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,2))
 	e2:SetCategory(CATEGORY_TODECK+CATEGORY_DRAW)
 	e2:SetType(EFFECT_TYPE_IGNITION)
