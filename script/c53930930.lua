@@ -101,16 +101,14 @@ end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
     if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
-    local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.setfilter),tp,LOCATION_DECK,0,1,1,nil)
-    local tc=g:GetFirst()
-    if tc then
-        Duel.SSet(tp,tc)
+    local sc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.setfilter),tp,LOCATION_DECK,0,1,1,nil):GetFirst()
+    if sc and Duel.SSet(tp,sc)>0 then
         local e1=Effect.CreateEffect(e:GetHandler())
         e1:SetDescription(aux.Stringid(id,2))
         e1:SetType(EFFECT_TYPE_SINGLE)
         e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE+EFFECT_FLAG_CLIENT_HINT)
         e1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
         e1:SetReset(RESETS_STANDARD_PHASE_END)
-        tc:RegisterEffect(e1)
+        sc:RegisterEffect(e1)
     end
 end
