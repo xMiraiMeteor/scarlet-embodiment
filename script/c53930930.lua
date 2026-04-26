@@ -102,12 +102,11 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
     local sc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(s.setfilter),tp,LOCATION_DECK,0,1,1,nil):GetFirst()
     if sc and Duel.SSet(tp,sc)>0 then
-		local eff_code=sc:IsQuickPlaySpell() and EFFECT_QP_ACT_IN_SET_TURN or EFFECT_TRAP_ACT_IN_SET_TURN
         local e1=Effect.CreateEffect(e:GetHandler())
         e1:SetDescription(aux.Stringid(id,2))
         e1:SetType(EFFECT_TYPE_SINGLE)
         e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE+EFFECT_FLAG_CLIENT_HINT)
-        e1:SetCode(eff_code)
+        e1:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
         e1:SetReset(RESETS_STANDARD_PHASE_END)
         sc:RegisterEffect(e1)
     end
