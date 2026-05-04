@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCondition(s.rmcon)
     e1:SetTarget(s.rmtarget)
-	e1:SetTargetRange(0xff,0xff)
+	e1:SetTargetRange(LOCATION_HAND|LOCATION_ONFIELD,LOCATION_HAND|LOCATION_ONFIELD)
 	e1:SetValue(LOCATION_REMOVED)
 	c:RegisterEffect(e1)
 	--Destroy all other cards on field
