@@ -29,7 +29,7 @@ end
 function s.spcon(e,c)
     if c==nil then return true end
     return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
-        and Duel.IsExistingMatchingCard(s.spfilter,c:GetControler(),LOCATION_MZONE,0,1,nil)
+        and Duel.IsExistingMatchingCard(s.cfilter,c:GetControler(),LOCATION_MZONE,0,1,nil)
 end
 function s.tdfilter(c,e,tp)
 	return  c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToDeck()
