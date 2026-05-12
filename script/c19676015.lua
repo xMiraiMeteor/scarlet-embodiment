@@ -28,7 +28,7 @@ function s.initial_effect(c)
 end
 s.listed_series={0x322}
 function s.ffilter(c)
-	return c:IsAttribute(ATTRIBUTE_DARK) and (c:IsRace(RACE_WARRIOR) or c:IsRace(RACE_SPELLCASTER) or c:IsRace(RACE_FIEND))
+	return c:IsAttribute(ATTRIBUTE_DARK)
 end
 function s.checkmat(tp,sg,fc)
 	return fc:IsSetCard(0x322) or not sg:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE)
@@ -74,7 +74,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
         g=g:Select(tp,ft,ft,nil)
     end
     for tc in aux.Next(g) do
-        Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)
+        Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
         local e1=Effect.CreateEffect(e:GetHandler())
         e1:SetType(EFFECT_TYPE_SINGLE)
         e1:SetCode(EFFECT_DISABLE)
