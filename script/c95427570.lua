@@ -15,9 +15,14 @@ function s.initial_effect(c)
 end
 s.listed_names={id}
 s.listed_series={0x322}
+function s.cfilter(c)
+	return c:IsSetCard(0x322) and c:IsSpellTrap() and not c:IsCode(id) and c:IsAbleToGraveAsCost()
+end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,e:GetHandler()) end
-	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST|REASON_DISCARD)
+	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND|LOCATION_DECK,0,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+	local g=Duel.SelectMatchingCard(tp,s.cfilter,tp,LOCATION_HAND|LOCATION_DECK,0,1,1,nil)
+	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.spfilter(c,e,tp,ft)
 	return c:IsLevelBelow(4) and c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
