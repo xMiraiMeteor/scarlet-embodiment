@@ -25,9 +25,12 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
+function s.matcheck(g,lc,sumtype,tp)
+	return g:IsExists(Card.IsSetCard,1,nil,0x322,lc,sumtype,tp)
+end
 function s.incon(e)
 	return e:GetHandler():GetLinkedGroupCount()>0 
-	and e:GetHandler():GetLinkedGroup():IsExists(aux.FaceupFilter(Card.IsSetCard,0x322),1,nil)
+	and e:GetHandler():GetLinkedGroup():IsExists(aux.FaceupFilter(Card.IsAttribute,ATTRIBUTE_DARK),1,nil)
 end
 function s.tdfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToDeck()
