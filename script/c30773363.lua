@@ -55,12 +55,9 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetTargetRange(1,0)
-	e1:SetTarget(s.spelimit)
+	e1:SetTarget(function(e,c) return not c:IsAttribute(ATTRIBUTE_DARK) end)
 	e1:SetReset(RESET_PHASE|PHASE_END)
 	Duel.RegisterEffect(e1,tp)
-end
-function s.spelimit(e,c) 
-    return not c:IsAttribute(ATTRIBUTE_DARK) 
 end
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
     local tc=e:GetLabelObject()
