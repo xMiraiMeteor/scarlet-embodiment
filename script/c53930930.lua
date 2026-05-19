@@ -74,7 +74,7 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
 end
 function s.spfilter(c,e,tp)
-	return c:IsCode(11091144,89155913) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCode(11091144,89155913) and c:IsFaceup() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
