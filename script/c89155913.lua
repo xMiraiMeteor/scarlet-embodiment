@@ -38,11 +38,14 @@ function s.initial_effect(c)
 end
 s.listed_series={0x322}
 s.listed_names={id}
+function s.rmfilter(c)
+    return c:IsSetCard(0x322) and c:IsMonster() and c:IsFaceup()
+end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(aux.FaceupFilter(Card.IsMonster),1,nil)
+	return eg:IsExists(s.rmfilter,1,nil)
 end
 function s.tdfilter(c)
-	return c:IsSetCard(0x322) and c:IsMonster() and c:IsAbleToDeck() and not c:IsCode(id)
+	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToDeck() and not c:IsCode(id)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
