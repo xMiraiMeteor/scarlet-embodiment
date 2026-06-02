@@ -3,7 +3,7 @@ function s.initial_effect(c)
 	c:EnableReviveLimit()
     --1 Tuner + 1+ non-Tuner DARK monsters
 	Synchro.AddProcedure(c,nil,1,1,Synchro.NonTunerEx(Card.IsAttribute,ATTRIBUTE_DARK),1,99)
-    --Negate opponent's monster effect while you control a Fiend monster
+    --Negate opponent's monster effect while you control a Zombie monster
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
@@ -30,7 +30,7 @@ function s.initial_effect(c)
 end
 s.listed_series={0x322}
 function s.negcfilter(c)
-	return c:IsFaceup() and c:IsRace(RACE_FIEND)
+	return c:IsFaceup() and c:IsRace(RACE_ZOMBIE)
 end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
 	return rp==1-tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
