@@ -13,7 +13,7 @@ function s.initial_effect(c)
 	e0:SetCondition(s.regcon)
 	e0:SetOperation(s.regop)
 	c:RegisterEffect(e0)
-	--Banish 1 Level 7 or higher DARK Fiend monster
+	--Banish 1 Level 7 or higher Zombie monster
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -68,13 +68,13 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 end
 function s.selfspcostfilter(c,tp,sc)
-	return c:IsLevelAbove(7) and c:IsRace(RACE_FIEND)
+	return c:IsLevelAbove(7) and c:IsRace(RACE_ZOMBIE)
 		and c:IsAbleToRemoveAsCost() and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
 function s.selfspcon(e,c)
 	if not c then return true end
 	local tp=c:GetControler()
-	return (Duel.GetCustomActivityCount(id,tp,ACTIVITY_CHAIN)>0 or Duel.GetCustomActivityCount(id,1-tp,ACTIVITY_CHAIN)>0)
+	return (Duel.GetCustomActivityCount(id,tp,ACTIVITY_CHAIN)>0 or Duel.GetCustomActivityCount(id,1-tp,ACTIVITY_CHAIN)>0) 
 		and Duel.IsExistingMatchingCard(s.selfspcostfilter,tp,LOCATION_MZONE,0,1,nil,tp,c)
 end
 function s.selfsptg(e,tp,eg,ep,ev,re,r,rp,chk,c)
