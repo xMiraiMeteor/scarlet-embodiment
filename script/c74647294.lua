@@ -58,7 +58,7 @@ function s.atkdefcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_FZONE) and c:IsReason(REASON_EFFECT)
+    return c:IsPreviousLocation(LOCATION_FZONE) and c:IsPreviousPosition(POS_FACEUP) and c:IsReason(REASON_EFFECT)
 end
 function s.spfilter(c,e,tp)
     return c:IsMonster() and c:IsAttribute(ATTRIBUTE_DARK) and c:IsFaceup() and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
