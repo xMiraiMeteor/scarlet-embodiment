@@ -48,7 +48,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(g,REASON_EFFECT)
 	end
 end
-function s.rmdfilter(c,atk)
+function s.rmfilter(c,atk)
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsType(TYPE_FUSION|TYPE_SYNCHRO|TYPE_XYZ|TYPE_LINK) and c:IsMonster() and c:IsAbleToRemove()
 end
 function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
