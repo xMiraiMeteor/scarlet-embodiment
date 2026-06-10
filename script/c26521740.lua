@@ -23,7 +23,7 @@ function s.negcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_ONFIELD,0,1,nil)
 end
 function s.qpfilter(c)
-	return c:IsQuickPlaySpell() 
+	return c:IsSetCard(0x322) and c:IsQuickPlaySpell() 
 end
 function s.filter(c)
     return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_ZOMBIE)
