@@ -46,7 +46,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	if tg then
 		local sg=tg:Filter(Card.IsRelateToEffect,nil,e)
 		Duel.SendtoHand(sg,nil,REASON_EFFECT)
-        if Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0 Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+        if Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
 	        local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
 	        local sg=g:RandomSelect(tp,1)
 	        Duel.Destroy(sg,REASON_EFFECT)
