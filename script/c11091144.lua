@@ -1,11 +1,13 @@
 --Remilia the Scarlet Devil
 local s,id=GetID()
 function s.initial_effect(c)
-	--Cannot be destroyed by battle
+	--Cannot be destroyed by monster effects
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-	e1:SetValue(1)
+	e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetValue(function(e,re,rp) return re:IsMonsterEffect() end)
 	c:RegisterEffect(e1)
 	--Place 1 "Embodiment of Scarlet Devil" from hand, Deck, or GY
 	local e2=Effect.CreateEffect(c)
@@ -16,17 +18,21 @@ function s.initial_effect(c)
 	e2:SetTarget(s.pltg)
 	e2:SetOperation(s.plop)
 	c:RegisterEffect(e2)
-    --Add 1 "Flandre the Scalet Devil's Sister" or 1 card that mentions it, except {id}
-	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,1))
-	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
-	e3:SetType(EFFECT_TYPE_IGNITION)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1,{id,1})
-	e3:SetCost(s.thcost)
-	e3:SetTarget(s.thtg)
-	e3:SetOperation(s.thop)
+	local e3=e2:Clone()
+	e3:SetCode(EVENT_DESTROYED)
+	e3:SetCondition(function(e) return e:GetHandler():IsReason(REASON_EFFECT) end)
 	c:RegisterEffect(e3)
+    --Add 1 "Flandre the Scalet Devil's Sister" or 1 card that mentions it, except "Remilia the Scarlet Devil"
+	local e4=Effect.CreateEffect(c)
+	e4:SetDescription(aux.Stringid(id,1))
+	e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
+	e4:SetType(EFFECT_TYPE_IGNITION)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetCountLimit(1,{id,1})
+	e4:SetCost(s.thcost)
+	e4:SetTarget(s.thtg)
+	e4:SetOperation(s.thop)
+	c:RegisterEffect(e4)
 end
 s.listed_names={53930930,89155913,id} --"Embodiment of Scarlet Devil"/"Flandre the Scalet Devil's Sister"
 s.listed_series={0x322}
@@ -55,7 +61,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.thfilter(c)
-	return (c:IsCode(89155913) or c:IsSpellTrap() and c:ListsCode(89155913)) and c:IsAbleToHand() and not c:IsCode(id)
+	return (c:IsCode(89155913) or c:ListsCode(89155913)) and c:IsAbleToHand() and not c:IsCode(id)
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_DECK,0,1,nil) end

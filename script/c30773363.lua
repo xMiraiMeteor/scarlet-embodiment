@@ -4,7 +4,7 @@ function s.initial_effect(c)
 	c:EnableReviveLimit()
     --2 monsters, including a "Scarlet" monster
 	Link.AddProcedure(c,nil,2,2,s.matcheck)
-    --Special Summon 1 "Scarlet" monster from Deck, but banished at End Phase of next turn
+    --Special Summon 1 Zombie "Scarlet" monster from Deck, but banished at End Phase of next turn
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -35,7 +35,7 @@ function s.matcheck(g,lc,sumtype,tp)
 	return g:IsExists(Card.IsSetCard,1,nil,0x322,lc,sumtype,tp)
 end
 function s.spfilter(c,e,tp)
-    return c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
+    return c:IsSetCard(0x322) and c:IsRace(RACE_ZOMBIE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0

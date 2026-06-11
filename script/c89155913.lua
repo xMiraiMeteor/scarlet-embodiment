@@ -1,13 +1,13 @@
 --Flandre the Scarlet Devil's Sister
 local s,id=GetID()
 function s.initial_effect(c)
-    --Your opponent cannot target this card with card effects
+	--Cannot be destroyed by Spell/Trap effects
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(aux.tgoval)
+	e1:SetValue(function(e,re,rp) return re:IsSpellTrapEffect() end)
 	c:RegisterEffect(e1)
 	--Special Summons itself from hand, and shuffles 2 "Scarlet" monster from banishment
 	local e2=Effect.CreateEffect(c)
@@ -31,6 +31,7 @@ function s.initial_effect(c)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetHintTiming(0,TIMING_MAIN_END|TIMINGS_CHECK_MONSTER)
 	e3:SetCountLimit(1,{id,1})
+	e3:SetCondition(function() return Duel.IsMainPhase() end)
 	e3:SetCost(s.descost)
 	e3:SetTarget(s.destg)
 	e3:SetOperation(s.desop)

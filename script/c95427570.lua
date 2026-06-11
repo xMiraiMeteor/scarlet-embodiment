@@ -1,17 +1,30 @@
 --Scarlet Gathering
 local s,id=GetID()
 function s.initial_effect(c)
-    --Special Summon 1 Level 4 or lower "Scarlet" monster from Deck
+    --Special Summon 1 non-Zombie "Scarlet" monster from Deck
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOGRAVE+CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCountLimit(1,id,EFFECT_COUNT_CODE_OATH)
+	e1:SetCountLimit(1,id)
 	e1:SetCost(s.spcost)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
+	--Add 1 "Scarlet" monster from your GY or banishment
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetCategory(CATEGORY_TOHAND)
+	e2:SetType(EFFECT_TYPE_IGNITION)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e2:SetRange(LOCATION_GRAVE)
+	e2:SetCountLimit(1,{id,1})
+	e2:SetCondition(aux.exccon)
+	e2:SetCost(Cost.SelfBanish)
+	e2:SetTarget(s.thtg)
+	e2:SetOperation(s.thop)
+	c:RegisterEffect(e2)
 end
 s.listed_names={id}
 s.listed_series={0x322}
@@ -25,7 +38,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.spfilter(c,e,tp,ft)
-	return c:IsLevelBelow(4) and c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return not c:IsType(TYPE_ZOMBIE) and c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -43,7 +56,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	--Cannot Special Summon from the Extra Deck, except DARK monsters
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(id,1))
+	e1:SetDescription(aux.Stringid(id,2))
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CLIENT_HINT)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
@@ -53,4 +66,21 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RegisterEffect(e1,tp)
 	--Clock Lizard check
 	aux.addTempLizardCheck(c,tp,function(e,c) return not c:IsOriginalAttribute(ATTRIBUTE_DARK) end)
+end
+function s.thfilter(c)
+	return c:IsSetCard(0x322) and c:IsMonster() and c:IsAbleToHand() and c:IsFaceup()
+end
+function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	local c=e:GetHandler()
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE|LOCATION_REMOVED) and chkc:IsControler(tp) and chkc~=c and s.thfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.thfilter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,c) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+	local g=Duel.SelectTarget(tp,s.thfilter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,1,c)
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,tp,0)
+end
+function s.thop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
+	end
 end
