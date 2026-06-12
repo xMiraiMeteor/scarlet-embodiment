@@ -38,7 +38,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.spfilter(c,e,tp,ft)
-	return not c:IsType(TYPE_ZOMBIE) and c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return not c:IsRace(TYPE_ZOMBIE) and c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
