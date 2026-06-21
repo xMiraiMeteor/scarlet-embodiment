@@ -45,8 +45,9 @@ end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
     return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_ONFIELD|LOCATION_GRAVE,0,1,nil)
 end
-function s.spfilter(c)
-    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousControler(tp) and c:IsReason(REASON_BATTLE|REASON_EFFECT)
+function s.spfilter(c,tp)
+    return c:IsReason(REASON_BATTLE|REASON_EFFECT) 
+	    and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
