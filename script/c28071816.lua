@@ -1,4 +1,4 @@
---Flandre the Scarlet Diabolic Wave
+--Flandre the Diabolic Scarlet Wave
 local s,id=GetID()
 function s.initial_effect(c)
 	--Name change into "Flandre the Scarlet Devil's Sister" while on field
@@ -43,11 +43,11 @@ function s.cfilter(c)
     return (c:IsFaceup() or c:IsLocation(LOCATION_GRAVE)) and c:IsCode(11091144)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
-    return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_ONFIELD|LOCATION_GRAVE,0,1,nil)
+    return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_ONFIELD+LOCATION_GRAVE,0,1,nil)
 end
 function s.spfilter(c,tp)
     return c:IsReason(REASON_BATTLE|REASON_EFFECT) 
-	    and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE)
+        and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
