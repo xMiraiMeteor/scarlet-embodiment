@@ -43,7 +43,7 @@ function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,#g,0,0)
 	Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE|LOCATION_REMOVED)
 end
-function s.filter(c)
+function s.filter(c,e,tp)
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsFaceup() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.tdop(e,tp,eg,ep,ev,re,r,rp)
@@ -54,7 +54,7 @@ function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local og=Duel.GetOperatedGroup()
 	if #og==0 then return end
 	if og:IsExists(Card.IsLocation,1,nil,LOCATION_GRAVE|LOCATION_REMOVED) then Duel.ShuffleDeck(tp) end
-	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,nil)
+	local g=Duel.GetMatchingGroup(s.filter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,nil,e,tp)
 	if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
 		Duel.BreakEffect()
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
