@@ -51,7 +51,7 @@ function s.spfilter(c,tp)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    return s.condition(e,tp,eg,ep,ev,re,r,rp) and eg:IsExists(s.spfilter,1,nil) and (not eg:IsContains(c) or c:IsLocation(LOCATION_HAND))
+    return s.condition(e,tp,eg,ep,ev,re,r,rp) and eg:IsExists(s.spfilter,1,nil,tp) and (not eg:IsContains(c) or c:IsLocation(LOCATION_HAND))
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
     local c=e:GetHandler()
