@@ -33,7 +33,7 @@ Step 1: In the main repository page, select Code and click Download ZIP.<br/>
 Step 2: Extract all files and place them in their respective folders:
 - expansions
 - expansions\script
-- epansions\pics
+- expansions\pics
 
 Step 3: Run the game, and check if the cards are present in-game.
 ## Credits
