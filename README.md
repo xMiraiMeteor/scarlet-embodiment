@@ -16,13 +16,13 @@ Step 2: Add the following code to your newly created file. (or if you already ha
 {
   "repos": [
     {
-      "url": "https://github.com/xMiraiMeteor/almost-perfect-cherry-blossom.git",
-      "repo_name": "Almost Perfect Cherry Blossom",
-      "repo_path": "./repositories/almost-perfect-cherry-blossom",
-      "data_path": "",
-      "script_path": "script",
-      "should_update": true,
-      "should_read": true
+      "url": "https://github.com/xMiraiMeteor/scarlet-embodiment.git",
+			"repo_name": "Scarlet Embodiment",
+			"repo_path": "./repositories/scarlet-embodiment",
+			"data_path": "",
+			"script_path": "script",
+			"should_update": true,
+			"should_read": true
     }
   ]
 }
