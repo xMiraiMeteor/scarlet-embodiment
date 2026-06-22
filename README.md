@@ -1,6 +1,6 @@
 # Custom cards for EDOPro by xMiraiMeteor: The "Scarlet" archetype 
 ## About this repository
-This is the repository of the Scarlet archetype for EDOPro. For the manual download for MDPro3, use this [Google Drive link](https://drive.google.com/drive/folders/1U0iQ9n5-djuvxIlZLDOPVwCOQn3xQITl?usp=drive_link).<br/>
+This is the repository of the Scarlet archetype for EDOPro. If you are looking for the MDPro3 port, use this [Google Drive link](https://drive.google.com/drive/folders/1U0iQ9n5-djuvxIlZLDOPVwCOQn3xQITl?usp=drive_link).<br/>
 **I do not own all of the artworks being used here, all credits goes to their respective owners.**
 ### More details
 More information can be found here in this [wiki](https://github.com/xMiraiMeteor/scarlet-embodiment/wiki).
