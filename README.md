@@ -5,7 +5,7 @@ This is the repository of the Scarlet archetype for EDOPro. If you are looking f
 ### More details
 More information can be found here in this [wiki](https://github.com/xMiraiMeteor/scarlet-embodiment/wiki).
 ## How to install
-There are two options to choose from
+There are two installtion options to choose from:
 ### Option 1: Linking the repository to EDOPro
 Step 1: Create a .json file named "user_configs.json" and save it in your `config` folder. The common filepath for each platform are as follows:
 - Android: ...\EDOPro\config
