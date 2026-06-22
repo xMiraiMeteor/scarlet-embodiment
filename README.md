@@ -27,7 +27,7 @@ Step 2: Add the following code to your newly created file. (or if you already ha
   ]
 }
 ```
-Step 3: Save the file and run the game. It should show up in the Repositories tab at the top-left. Wait for it to finish downloading all files. Check if the cards are present in-game once it finished downloading.<br/>
+Step 3: Save the file and run the game. It should show up in the Repositories tab at the top-left. Wait for it to finish downloading all the files. Check if the cards are present in-game once it finishes downloading.<br/>
 ### Option 2: Manual installation
 Step 1: In the main repository page, select Code and click Download ZIP.<br/>
 Step 2: Extract all files and place them in their respective folders:
