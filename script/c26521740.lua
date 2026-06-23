@@ -1,6 +1,7 @@
 --Scarlet Sign "Scarlet Meister"
 local s,id=GetID()
 function s.initial_effect(c)
+	--Negate cards up to the number of DARK Zombie monsters you control
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_DISABLE+CATEGORY_REMOVE+CATEGORY_DESTROY)
@@ -14,18 +15,22 @@ function s.initial_effect(c)
 	e1:SetOperation(s.negop)
 	c:RegisterEffect(e1)
 end
-s.listed_names={11091144}
+s.listed_names={11091144} --"Remilia the Scarlet Devil"
 s.listed_series={0x322}
+--e1 effect code
 function s.cfilter(c)
+	--"Remilia the Scarlet Devil"
 	return c:IsFaceup() and c:IsCode(11091144)
 end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_ONFIELD,0,1,nil)
 end
 function s.qpfilter(c)
+	--"Scarlet" Quick-Play Spell
 	return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and not c:IsCode(id) and c:IsAbleToRemove()
 end
 function s.filter(c)
+	--DARK Zombie monster
     return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_ZOMBIE)
 end
 function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

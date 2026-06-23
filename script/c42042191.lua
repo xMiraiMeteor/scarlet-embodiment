@@ -2,8 +2,9 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
+	--Fusion Materials: "Remilia the Scarlet Devil" or "Flandre the Scarlet Devil's Sister" + 2 DARK monsters
 	Fusion.AddProcMixN(c,true,true,{11091144,89155913},1,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK),2)
-	--While you control this Fusion Summoned card, any monster sent to the GY is banished instead
+	--While you control this Fusion Summoned card, any monster sent from the hand or fieldto the GY is banished instead
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
@@ -14,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetTargetRange(LOCATION_HAND|LOCATION_ONFIELD,LOCATION_HAND|LOCATION_ONFIELD)
 	e1:SetValue(LOCATION_REMOVED)
 	c:RegisterEffect(e1)
-	--Destroy all other cards on field
+    --Destroy all monsters your opponent controls
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_DESTROY)
@@ -27,14 +28,14 @@ function s.initial_effect(c)
 	e2:SetTarget(s.destg)
 	e2:SetOperation(s.desop)
 	c:RegisterEffect(e2)
-    --If Fusion Summoned with "Flandre the Scarlet Devil's Sister"
+	--If this card is Fusion Summoned using "Flandre the Scarlet Devil's Sister" as material
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetCode(EFFECT_MATERIAL_CHECK)
 	e3:SetValue(s.valcheck)
 	e3:SetLabelObject(e2)
 	c:RegisterEffect(e3)
-    --Special Summon up to 2 "Scarlet" monsters from GY and/or banishment
+    --Special Summon up to 2 "Scarlet" monsters from your GY and/or banishment
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
 	e4:SetCategory(CATEGORY_TOGRAVE)
@@ -47,8 +48,9 @@ function s.initial_effect(c)
 	e4:SetOperation(s.spop)
 	c:RegisterEffect(e4)
 end
-s.listed_names={89155913,id}
+s.listed_names={11091144,89155913,id} --"Remilia the Scarlet Devil", "Flandre the Scarlet Devil's Sister", "The Scarlet Devil Sisters"
 s.listed_series={0x322}
+--e1 effect code
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsFusionSummoned()
@@ -56,6 +58,7 @@ end
 function s.rmtarget(e,c)
 	return not c:IsLocation(LOCATION_OVERLAY) and not c:IsSpellTrap()
 end
+--e2/e3 effect code
 function s.valcheck(e,c)
 	if c:GetMaterial():IsExists(Card.IsCode,1,nil,89155913) then
 		e:GetLabelObject():SetLabel(1)
@@ -75,7 +78,9 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(g,REASON_EFFECT)
 	end
 end
+--e4 effect code
 function s.spfilter(c,e,tp)
+	--"Scarlet" monster, except "The Scarlet Devil Sisters"
 	return c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:IsFaceup() and not c:IsCode(id)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

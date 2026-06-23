@@ -2,9 +2,9 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	--1 non-Link "Scarlet" monster
+	--Link Material: 1 non-Link DARK monster
 	Link.AddProcedure(c,s.matfilter,1,1)
-	--Add 1 "Scarlet" Normal Spell/Trap from Deck
+	--Add 1 "Scarlet" Spell/Trap from your Deck to your hand
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
@@ -17,7 +17,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.thtg)
 	e1:SetOperation(s.thop)
 	c:RegisterEffect(e1)
-	--Special Summon from GY
+	--Special Summon this card from your GY
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -31,10 +31,11 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
-s.listed_names={id}
+--Material check
 function s.matfilter(c,lc,sumtype,tp)
 	return c:IsAttribute(ATTRIBUTE_DARK,lc,sumtype,tp) and not c:IsType(TYPE_LINK,lc,sumtype,tp)
 end
+--e1 effect code
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLinkSummoned()
 end
@@ -45,6 +46,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.thfilter(c)
+	--"Scarlet" Spell/Trap that is not a Quick-Play Spell
 	return c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToHand() and not c:IsQuickPlaySpell()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -59,7 +61,9 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
+--e2 effect code
 function s.spcostfilter(c,tp)
+	--"Scarlet" monster
 	return c:IsSetCard(0x322) and c:IsMonster() and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true) and Duel.GetMZoneCount(tp,c)>0
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)

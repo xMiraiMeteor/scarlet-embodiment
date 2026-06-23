@@ -7,23 +7,23 @@ function s.initial_effect(c)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetHintTiming(0,TIMING_END_PHASE)
 	c:RegisterEffect(e1)
-    --Opponent cannot respond to "Scarlet" Quick-Play Spells with cards and effects
+    --Your opponent cannot activate cards and effects in response to the activation of your "Scarlet" Quick-Play Spells Cards
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_CHAINING)
 	e2:SetRange(LOCATION_SZONE)
 	e2:SetOperation(s.chainop)
 	c:RegisterEffect(e2)
-    --Banish all monsters you control
+    --Destroy all monsters you control, and if you do, banish them
 	local e3=Effect.CreateEffect(c)
-	e3:SetCategory(CATEGORY_REMOVE)
+	e3:SetCategory(CATEGORY_DESTROY+CATEGORY_REMOVE)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e3:SetCode(EVENT_TO_GRAVE)
 	e3:SetCondition(s.rmcon)
 	e3:SetTarget(s.rmtg)
 	e3:SetOperation(s.rmop)
 	c:RegisterEffect(e3)
-    --Special Summon "Remilia" or "Flandre" from GY or banishment
+    --Special Summon "Remilia the Scarlet Devil" or "Flandre the Scarlet Devil's Sister" from your GY or banishment
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,0))
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -35,7 +35,7 @@ function s.initial_effect(c)
 	e4:SetTarget(s.sptg)
 	e4:SetOperation(s.spop)
 	c:RegisterEffect(e4)
-    --Set 1 "Scarlet" Quick-Play Spell from Deck
+    --Set 1 "Scarlet" Quick-Play Spell from your Deck
     local e5=Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id,1))
     e5:SetCategory(CATEGORY_SET)
@@ -48,8 +48,9 @@ function s.initial_effect(c)
     e5:SetOperation(s.setop)
     c:RegisterEffect(e5)
 end
-s.listed_names={11091144,89155913}
+s.listed_names={11091144,89155913} --"Remilia the Scarlet Devil", "Flandre the Scarlet Devil's Sister"
 s.listed_series={0x322}
+--e2 effect code
 function s.chainop(e,tp,eg,ep,ev,re,r,rp)
 	local rc=re:GetHandler()
 	if rp==tp and rc:IsQuickPlaySpell() and re:IsHasType(EFFECT_TYPE_ACTIVATE) then
@@ -59,6 +60,7 @@ end
 function s.chainlm(e,rp,tp)
 	return rp==tp
 end
+--e3 effect code
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_SZONE)
@@ -73,7 +75,9 @@ function s.rmop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetMatchingGroup(nil,tp,LOCATION_MZONE,0,nil)
 	Duel.Destroy(g,REASON_EFFECT,LOCATION_REMOVED)
 end
+--e4 effect code
 function s.spfilter(c,e,tp)
+	--"Remilia the Scarlet Devil" or "Flandre the Scarlet Devil's Sister"
 	return c:IsCode(11091144,89155913) and c:IsFaceup() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -91,7 +95,9 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
+--e5 effect code
 function s.setfilter(c)
+	--"Scarlet" Quick-Play Spell
     return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsSSetable()
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)

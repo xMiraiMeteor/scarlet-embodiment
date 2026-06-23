@@ -1,7 +1,7 @@
 --Scarlet Nights
 local s,id=GetID()
 function s.initial_effect(c)
-    --Fusion Summon 1 DARK Fusion Monster (Warrior, Spellcaster, or Fiend); materials from hand or field; extra banish material from GY if Summoning a "Scarlet" monster
+    --Fusion Summon 1 DARK Fusion Monster
 	local params = {fusfilter=aux.FilterBoolFunction(s.ffilter),extrafil=s.fextra,extraop=s.extraop,extratg=s.extratarget}
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	e1:SetOperation(Fusion.SummonEffOP(params))
 	c:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(c)
-    --Special Summon up to 2 "Scarlet" monsters from GY and/or banishment, but with their effects negated
+    --Special Summon up to 2 "Scarlet" monsters from your GY and/or banishment, but their effects are negated
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -27,6 +27,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
+--e1 effect code
 function s.ffilter(c)
 	return c:IsAttribute(ATTRIBUTE_DARK)
 end
@@ -50,7 +51,9 @@ function s.extratarget(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetPossibleOperationInfo(0,CATEGORY_REMOVE,nil,0,tp,LOCATION_GRAVE)
 end
+--e2 effect code
 function s.spfilter(c,e,tp)
+	--"Scarlet" monster
 	return c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

@@ -1,4 +1,5 @@
 --Hong Meiling the Scarlet Gatekeeper
+--スカーレット門番紅美鈴
 local s,id=GetID()
 function s.initial_effect(c)
 	--Cannot attack directly 
@@ -6,7 +7,7 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
 	c:RegisterEffect(e1)
-    --Add 1 "Scarlet" monster from Deck to hand
+    --Add 1 "Scarlet" monster from your Deck to your hand
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
@@ -16,7 +17,7 @@ function s.initial_effect(c)
 	e2:SetTarget(s.thtg)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
-	--Destruction replacement for a "Scarlet" monster
+	--Destruction replacement for a "Scarlet" monster(s)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e3:SetCode(EFFECT_DESTROY_REPLACE)
@@ -27,9 +28,11 @@ function s.initial_effect(c)
 	e3:SetOperation(s.repop)
 	c:RegisterEffect(e3)
 end
-s.listed_names={id}
+s.listed_names={id} --"Hong Meiling the Scarlet Gatekeeper"
 s.listed_series={0x322}
+--e2 effect code
 function s.thfilter(c)
+	--"Scarlet" monster, except "Hong Meiling the Scarlet Gatekeeper"
 	return c:IsSetCard(0x322) and c:IsMonster() and not c:IsCode(id) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -44,7 +47,9 @@ function s.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
+--e3 effect code
 function s.repfilter(c,tp)
+	--"Scarlet" monster
 	return c:IsFaceup() and c:IsSetCard(0x322) and c:IsMonster() and not c:IsReason(REASON_REPLACE)
 		and c:IsOnField() and c:IsControler(tp) and c:IsReason(REASON_EFFECT|REASON_BATTLE)
 end

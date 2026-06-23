@@ -2,9 +2,9 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-    --2 monsters, including a "Scarlet" monster
+    --Link Materials: 2 monsters, including a "Scarlet" monster
 	Link.AddProcedure(c,nil,2,2,s.matcheck)
-    --Special Summon 1 Zombie "Scarlet" monster from Deck, but banished at End Phase of next turn
+    --Special Summon 1 Zombie "Scarlet" monster from your hand or Deck
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -15,7 +15,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-    --Negate card effect that targets a "Scarlet" monster(s) you control
+    --Negate a card effect that targets a "Scarlet" monster(s) you control
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,1))
     e2:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
@@ -31,10 +31,13 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
+--Material filter
 function s.matcheck(g,lc,sumtype,tp)
 	return g:IsExists(Card.IsSetCard,1,nil,0x322,lc,sumtype,tp)
 end
+--e1 effect code
 function s.spfilter(c,e,tp)
+    --Zombie "Scarlet" monster
     return c:IsSetCard(0x322) and c:IsRace(RACE_ZOMBIE) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENSE)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -59,6 +62,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE|PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
+--e2 effect code
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
     local tc=e:GetLabelObject()
     if tc:GetFlagEffect(id)~=0 then
@@ -73,6 +77,7 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
     Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
 end
 function s.filter(c,tp)
+    --"Scarlet" monster(s) you control
     return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsSetCard(0x322)
 end
 function s.discon(e,tp,eg,ep,ev,re,r,rp)

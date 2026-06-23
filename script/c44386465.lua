@@ -2,6 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
+	--Link Materials: 2 DARK monsters, including a "Scarlet" monster
 	Link.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK),2,nil,s.matcheck)
     --Cannot be destroyed by card effects
 	local e1=Effect.CreateEffect(c)
@@ -12,7 +13,7 @@ function s.initial_effect(c)
 	e1:SetCondition(s.incon)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
-    --To Deck, then optional Special Summon
+    --Shuffle 1 "Scarlet" Spell/Trap from your GY or banishment into the Deck, then you can Special Summon 1 DARK monster from your GY or banishment
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_TODECK+CATEGORY_SPECIAL_SUMMON)
@@ -25,14 +26,18 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
+--Material filter
 function s.matcheck(g,lc,sumtype,tp)
 	return g:IsExists(Card.IsSetCard,1,nil,0x322,lc,sumtype,tp)
 end
+--e1 effect code
 function s.incon(e)
 	return e:GetHandler():GetLinkedGroupCount()>0 
 	and e:GetHandler():GetLinkedGroup():IsExists(aux.FaceupFilter(Card.IsAttribute,ATTRIBUTE_DARK),1,nil)
 end
+--e2 effect code
 function s.tdfilter(c)
+	--"Scarlet" Spell/Trap
 	return c:IsFaceup() and c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToDeck()
 end
 function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -44,6 +49,7 @@ function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetPossibleOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE|LOCATION_REMOVED)
 end
 function s.filter(c,e,tp)
+	--DARK monster
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsFaceup() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.tdop(e,tp,eg,ep,ev,re,r,rp)

@@ -1,4 +1,5 @@
 --Remilia the Scarlet Devil
+--スカーレットデビルレミリア
 local s,id=GetID()
 function s.initial_effect(c)
 	--Cannot be destroyed by monster effects
@@ -9,7 +10,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(function(e,re,rp) return re:IsMonsterEffect() end)
 	c:RegisterEffect(e1)
-	--Place 1 "Embodiment of Scarlet Devil" from hand, Deck, or GY
+	--Place 1 "Embodiment of Scarlet Devil" from your hand, Deck, or GY, face-up in your Spell & Trap Zone
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
@@ -22,7 +23,7 @@ function s.initial_effect(c)
 	e3:SetCode(EVENT_DESTROYED)
 	e3:SetCondition(function(e) return e:GetHandler():IsReason(REASON_EFFECT) end)
 	c:RegisterEffect(e3)
-    --Add 1 "Flandre the Scalet Devil's Sister" or 1 card that mentions it, except "Remilia the Scarlet Devil"
+    --Add 1 "Flandre the Scalet Devil's Sister" or 1 card that mentions it from your Deck to your hand
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
 	e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
@@ -34,9 +35,11 @@ function s.initial_effect(c)
 	e4:SetOperation(s.thop)
 	c:RegisterEffect(e4)
 end
-s.listed_names={53930930,89155913,id} --"Embodiment of Scarlet Devil"/"Flandre the Scalet Devil's Sister"
+s.listed_names={53930930,89155913,id} --"Embodiment of Scarlet Devil", "Flandre the Scalet Devil's Sister", "Remilia the Scarlet Devil"
 s.listed_series={0x322}
+--e2/e3 effect code
 function s.plfilter(c,tp)
+	--"Embodiment of Scarlet Devil"
 	return c:IsCode(53930930) and not c:IsForbidden() and c:CheckUniqueOnField(tp)
 end
 function s.pltg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -51,7 +54,9 @@ function s.plop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 	end
 end
+--e4 effect code
 function s.cfilter(c)
+	--DARK monster
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c,true)
 end
 function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -61,6 +66,7 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function s.thfilter(c)
+	--"Flandre the Scalet Devil's Sister" or a card that mentions it
 	return (c:IsCode(89155913) or c:ListsCode(89155913)) and c:IsAbleToHand() and not c:IsCode(id)
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)

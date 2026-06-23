@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	--Fusion Materials: 1 "Flandre the Scarlet Devil's Sister" + 1 Fusion or Synchro Monster
+	--Fusion Materials: "Flandre the Scarlet Devil's Sister" + 1 Fusion or Synchro Monster
 	Fusion.AddProcMix(c,true,true,89155913,s.matfilter)
     --Must be Fusion Summoned
 	local e1=Effect.CreateEffect(c)
@@ -11,7 +11,7 @@ function s.initial_effect(c)
 	e1:SetCode(EFFECT_SPSUMMON_CONDITION)
 	e1:SetValue(aux.fuslimit)
 	c:RegisterEffect(e1)
-	--Name change into "Flandre the Scarlet Devil's Sister" while on field or GY
+	--This card's name becomes "Flandre the Scarlet Devil's Sister" while on the field or in the GY
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -30,7 +30,7 @@ function s.initial_effect(c)
 	e3:SetTarget(s.destg)
 	e3:SetOperation(s.desop)
 	c:RegisterEffect(e3)
-    --Force banish 1 monster from your opponent's field
+    --Make your opponent banish 1 monster from their field
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
 	e4:SetCategory(CATEGORY_REMOVE)
@@ -44,10 +44,12 @@ function s.initial_effect(c)
 	e4:SetOperation(s.rmop)
 	c:RegisterEffect(e4)
 end
-s.listed_names={89155913}
+s.listed_names={89155913} --"Flandre the Scarlet Devil's Sister"
+--Material filter
 function s.matfilter(c,fc,sumtype,tp)
 	return c:IsAttribute(ATTRIBUTE_DARK,fc,sumtype,tp) and c:IsType(TYPE_FUSION|TYPE_SYNCHRO,fc,sumtype,tp)
 end
+--e3 effect code
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroup(tp,0,LOCATION_ONFIELD)
 	if chk==0 then return #g>0 end
@@ -59,7 +61,9 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(g,REASON_EFFECT)
 	end
 end
+--e4 effect code
 function s.rmfilter(c,atk)
+	--DARK Fusion, Synchro, Xyz, or Link Monster
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsType(TYPE_FUSION|TYPE_SYNCHRO|TYPE_XYZ|TYPE_LINK) and c:IsMonster() and c:IsAbleToRemove()
 end
 function s.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)

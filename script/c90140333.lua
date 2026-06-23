@@ -1,9 +1,10 @@
+--Sakuya the Maid of the Scarlet Devil
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-    --1 Tuner + 1+ non-Tuner DARK monsters
+    --Synchro Materials: 1 Tuner + 1+ non-Tuner DARK monsters
 	Synchro.AddProcedure(c,nil,1,1,Synchro.NonTunerEx(Card.IsAttribute,ATTRIBUTE_DARK),1,99)
-    --Negate opponent's monster effect while you control a Zombie monster
+    --Negates a card activation while you control a Zombie monster
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
@@ -16,7 +17,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.negtg)
 	e1:SetOperation(s.negop)
 	c:RegisterEffect(e1)
-    --"Scarlet" monster you control cannot be destroyed by card effects
+    --"Scarlet" monsters you control cannot be destroyed by card effects
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetType(EFFECT_TYPE_QUICK_O)
@@ -29,7 +30,9 @@ function s.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
+--e1 effect code
 function s.negcfilter(c)
+	--Zombie monster
 	return c:IsFaceup() and c:IsRace(RACE_ZOMBIE)
 end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
@@ -49,6 +52,7 @@ function s.negop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(eg,REASON_EFFECT)
 	end
 end
+--e2 effect code
 function s.indcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return c:IsAbleToRemoveAsCost() end

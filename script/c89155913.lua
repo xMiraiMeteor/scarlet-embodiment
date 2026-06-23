@@ -1,4 +1,5 @@
 --Flandre the Scarlet Devil's Sister
+--スカーレットデビルの妹フランドール
 local s,id=GetID()
 function s.initial_effect(c)
 	--Cannot be destroyed by Spell/Trap effects
@@ -9,7 +10,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(function(e,re,rp) return re:IsSpellTrapEffect() end)
 	c:RegisterEffect(e1)
-	--Special Summons itself from hand, and shuffles 2 "Scarlet" monster from banishment
+	--Special Summon from hand, then shuffles 2 DARK monsters from your banishment into the Deck
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_TODECK+CATEGORY_SPECIAL_SUMMON)
@@ -37,15 +38,18 @@ function s.initial_effect(c)
 	e3:SetOperation(s.desop)
 	c:RegisterEffect(e3)
 end
+s.listed_names={id} --"Flandre the Scarlet Devil's Sister"
 s.listed_series={0x322}
-s.listed_names={id}
+--e2 effect code
 function s.rmfilter(c)
+	--"Scarlet" monster
     return c:IsSetCard(0x322) and c:IsMonster() and c:IsFaceup()
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.rmfilter,1,nil)
 end
 function s.tdfilter(c)
+	--DARK monster, except "Flandre the Scarlet Devil's Sister"
 	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToDeck() and not c:IsCode(id)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -65,14 +69,16 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SendtoDeck(g,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)
 	end
 end
+--e3 effect code
+function s.rmdesfilter(c)
+	--"Scarlet" Quick-Play Spell
+	return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsAbleToRemove()
+end
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.rmdesfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,s.rmdesfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
-end
-function s.rmdesfilter(c,atk)
-	return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsAbleToRemove()
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetMatchingGroup(nil,tp,LOCATION_MZONE,LOCATION_MZONE,e:GetHandler())

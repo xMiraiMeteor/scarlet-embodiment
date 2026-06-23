@@ -29,22 +29,22 @@ function s.initial_effect(c)
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
     e4:SetProperty(EFFECT_FLAG_DELAY|EFFECT_FLAG_CARD_TARGET)
-    e4:SetCode(EVENT_TO_GRAVE)
+    e4:SetCode(EVENT_DESTROYED)
     e4:SetCountLimit(1,id)
     e4:SetCondition(s.spcon)
     e4:SetTarget(s.sptg)
     e4:SetOperation(s.spop)
     c:RegisterEffect(e4)
-	local e5=e4:Clone()
-	e5:SetCode(EVENT_REMOVE)
-	c:RegisterEffect(e5)
     Duel.AddCustomActivityCounter(id,ACTIVITY_CHAIN,s.chainfilter)
 end
 s.listed_series={0x322}
+--Activity counter
 function s.chainfilter(re,tp,cid)
     return not re:IsActiveType(TYPE_SPELL+TYPE_TRAP)
 end
+--e1 effect code
 function s.setfilter(c)
+    --"Scarlet" Quick-Play Spell
     return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsSSetable()
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
@@ -56,14 +56,17 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
         Duel.SSet(tp,sg)
     end
 end
+--e2/e3 effect code
 function s.atkdefcon(e,tp,eg,ep,ev,re,r,rp)
     return Duel.GetCustomActivityCount(id,1-e:GetHandlerPlayer(),ACTIVITY_CHAIN)>0
 end
+--e4 effect code
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
     return c:IsPreviousLocation(LOCATION_FZONE) and c:IsPreviousPosition(POS_FACEUP)
 end
 function s.spfilter(c,e,tp)
+    --DARK monster
     return c:IsMonster() and c:IsAttribute(ATTRIBUTE_DARK) and c:IsFaceup() and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

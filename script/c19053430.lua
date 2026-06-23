@@ -2,10 +2,10 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	--"Remilia the Scarlet Devil" + 1 DARK monster
+	--Fusion Materials: "Remilia the Scarlet Devil" + 1 DARK monster
 	Fusion.AddProcMix(c,true,true,11091144,aux.FilterBoolFunctionEx(Card.IsAttribute,ATTRIBUTE_DARK))
 	c:AddMustBeFusionSummoned()
-	--Can only be Special Summoned by one method per turn
+	--You can only Special Summon using only one method per turn
 	local e0=Effect.CreateEffect(c)
 	e0:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
@@ -25,7 +25,7 @@ function s.initial_effect(c)
 	e1:SetOperation(s.selfspop)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
-	--Name change into "Remilia the Scarlet Devil" while on field or GY
+	--This card's name becomes "Remilia the Scarlet Devil" while on the field or in the GY
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -33,7 +33,7 @@ function s.initial_effect(c)
 	e2:SetRange(LOCATION_MZONE|LOCATION_GRAVE)
 	e2:SetValue(11091144)
 	c:RegisterEffect(e2)
-	--Add 1 "Scarlet" card from Deck
+	--Add 1 "Scarlet" card from your Deck to your hand
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
@@ -43,16 +43,17 @@ function s.initial_effect(c)
 	e3:SetTarget(s.thtg)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
-	--Piercing damage
+	--Inflict piercing battle damage to your opponent
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE)
 	e4:SetCode(EFFECT_PIERCE)
 	c:RegisterEffect(e4)
-	--DARK monster activation
+	--Checks if a DARK monster effect was activated during a turn
 	Duel.AddCustomActivityCounter(id,ACTIVITY_CHAIN,function(re,tp,cid) return not (re:IsMonsterEffect() and re:GetHandler():IsAttribute(ATTRIBUTE_DARK)) end)
 end
 s.listed_names={11091144}
 s.listed_series={0x322}
+--You can only Special Summon this card once per turn, no mattet which method is used
 function s.regcon(e)
 	local c=e:GetHandler()
 	return c:IsFusionSummoned() or c:IsSummonType(SUMMON_TYPE_SPECIAL+1)
@@ -67,7 +68,9 @@ function s.regop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_PHASE|PHASE_END)
 	Duel.RegisterEffect(e1,tp)
 end
+--e1 effect code
 function s.selfspcostfilter(c,tp,sc)
+	--Level 7 or higher Zombie monster
 	return c:IsLevelAbove(7) and c:IsRace(RACE_ZOMBIE)
 		and c:IsAbleToRemoveAsCost() and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
 end
@@ -93,7 +96,9 @@ function s.selfspop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Remove(g,POS_FACEUP,REASON_COST|REASON_MATERIAL)
 	g:DeleteGroup()
 end
+--e3 effect code
 function s.thfilter(c)
+	--"Scarlet" card
 	return c:IsSetCard(0x322) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)

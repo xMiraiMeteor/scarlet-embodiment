@@ -1,7 +1,8 @@
 --Koakuma the Scarlet Assistant
+--スカーレットアシスタント小悪魔
 local s,id=GetID()
 function s.initial_effect(c)
-    --Inherent Special Summon from hand if you control a "Scarlet" monster that is not her
+    --Special Summon from hand
     local e1=Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetCode(EFFECT_SPSUMMON_PROC)
@@ -10,20 +11,22 @@ function s.initial_effect(c)
     e1:SetCountLimit(1,id,EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(s.spcon)
     c:RegisterEffect(e1)
-    --Place 1 "Scarlet" Spell/Trap from GY or banishment to bottom of Deck, then draw 1
+    --Place 1 "Scarlet" Spell/Trap from your GY or banishment on the bottom of the Deck, then draw 1 card
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_TODECK+CATEGORY_DRAW)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
-    e2:SetCode(EVENT_REMOVE)
+	e2:SetCode(EVENT_REMOVE)
 	e2:SetCountLimit(1,{id,1})
 	e2:SetTarget(s.tdtg)
 	e2:SetOperation(s.tdop)
 	c:RegisterEffect(e2)
 end
 s.listed_series={0x322}
+--e1 effect code
 function s.cfilter(c)
+	--"Scarlet" monster, except this card
     return c:IsFaceup() and c:IsSetCard(0x322) and not c:IsCode(id)
 end
 function s.spcon(e,c)
@@ -31,8 +34,10 @@ function s.spcon(e,c)
     return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
         and Duel.IsExistingMatchingCard(s.cfilter,c:GetControler(),LOCATION_MZONE,0,1,nil)
 end
+--e2 effect code
 function s.tdfilter(c,e,tp)
-	return  c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToDeck()
+	--"Scarlet" Spell/Trap
+ 	return  c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsAbleToDeck()
 end
 function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE|LOCATION_REMOVED) and chkc:IsControler(tp) and s.tdfilter(chkc) end

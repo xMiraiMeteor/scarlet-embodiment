@@ -1,6 +1,8 @@
 --Taboo "Four of a Kind"
+--禁忌「フォーオブアカインド」
 local s,id=GetID()
 function s.initial_effect(c)
+	--Special Summon 3 Tokens
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
@@ -13,8 +15,10 @@ function s.initial_effect(c)
 	e1:SetOperation(s.activate)
 	c:RegisterEffect(e1)
 end
-s.listed_names={89155913}
+s.listed_names={89155913} --"Flandre the Scarlet Devil's Sister"
+--e1 effect code
 function s.cfilter(c)
+	--"Flandre the Scarlet Devil's Sister"
 	return c:IsFaceup() and c:IsCode(89155913)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
@@ -29,6 +33,7 @@ end
 function s.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)>2 and Duel.IsPlayerCanSpecialSummonMonster(tp,id+1,0,TYPES_TOKEN,2600,2600,6,RACE_ZOMBIE,ATTRIBUTE_DARK) then
         for i=1,3 do
+			--"Flandre Scarlet Token"
 		    local token=Duel.CreateToken(tp,id+1)
 		    Duel.SpecialSummon(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	        local e1=Effect.CreateEffect(e:GetHandler())

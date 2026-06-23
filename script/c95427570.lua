@@ -1,7 +1,8 @@
 --Scarlet Gathering
+--スカーレット・ギャザリングリング
 local s,id=GetID()
 function s.initial_effect(c)
-    --Special Summon 1 non-Zombie "Scarlet" monster from Deck
+    --Special Summon 1 non-Zombie "Scarlet" monster from your Deck
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOGRAVE+CATEGORY_SPECIAL_SUMMON)
@@ -12,7 +13,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.sptg)
 	e1:SetOperation(s.spop)
 	c:RegisterEffect(e1)
-	--Add 1 "Scarlet" monster from your GY or banishment
+	--Add 1 "Scarlet" monster from your GY or banishment to your hand
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_TOHAND)
@@ -26,9 +27,11 @@ function s.initial_effect(c)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
 end
-s.listed_names={id}
+s.listed_names={id} --"Scarlet Gathering"
 s.listed_series={0x322}
+--e1 effect code
 function s.cfilter(c)
+	--"Sacrlet" Spell/Trap, except "Scarlet Gathering"
 	return c:IsSetCard(0x322) and c:IsSpellTrap() and not c:IsCode(id) and c:IsAbleToGraveAsCost()
 end
 function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -38,6 +41,7 @@ function s.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function s.spfilter(c,e,tp,ft)
+	--non-Zombie "Scarlet" monster
 	return not c:IsRace(RACE_ZOMBIE) and c:IsSetCard(0x322) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -64,10 +68,10 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetTarget(function(e,c) return c:IsLocation(LOCATION_EXTRA) and not c:IsAttribute(ATTRIBUTE_DARK) end)
 	e1:SetReset(RESET_PHASE|PHASE_END)
 	Duel.RegisterEffect(e1,tp)
-	--Clock Lizard check
-	aux.addTempLizardCheck(c,tp,function(e,c) return not c:IsOriginalAttribute(ATTRIBUTE_DARK) end)
 end
+--e2 effect code
 function s.thfilter(c)
+	--"Scarlet" monster
 	return c:IsSetCard(0x322) and c:IsMonster() and c:IsAbleToHand() and c:IsFaceup()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

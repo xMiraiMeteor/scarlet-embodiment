@@ -1,7 +1,8 @@
 --Taboo "Kagome, Kagome"
+--禁忌「カゴメカゴメ」
 local s,id=GetID()
 function s.initial_effect(c)
-	--Return up to 2 monsters your opponent controls, then destroy 1 random card from their hand
+	--Return up to 2 monsters your opponent controls to the hand, then destroy 1 random card from their hand
     local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -13,7 +14,7 @@ function s.initial_effect(c)
 	e1:SetTarget(s.destg)
 	e1:SetOperation(s.desop)
 	c:RegisterEffect(e1)
-	--1 opponent's monster loses 600 ATK for each "Scarlet" monster you currentl control
+	--1 opponent's monster loses 600 ATK for each "Scarlet" monster you currently control
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_ATKCHANGE)
 	e2:SetType(EFFECT_TYPE_IGNITION)
@@ -25,9 +26,11 @@ function s.initial_effect(c)
 	e2:SetOperation(s.atkop)
 	c:RegisterEffect(e2)
 end
-s.listed_names={89155913}
+s.listed_names={89155913} --"Flandre the Scarlet Devil's Sister"
 s.listed_series={0x322}
+--e1 effect code
 function s.cfilter(c)
+	--"Flandre the Scarlet Devil's Sister"
 	return c:IsFaceup() and c:IsCode(89155913)
 end
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
@@ -53,7 +56,9 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
         end
 	end
 end
+--e2 effect code
 function s.atkfilter(c)
+	--"Scarlet" monster
 	return c:IsSetCard(0x322) and c:IsFaceup()
 end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

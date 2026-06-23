@@ -1,7 +1,8 @@
 --Flandre the Diabolic Scarlet Wave
+--恐ろしい波動スカーレット － フランドール
 local s,id=GetID()
 function s.initial_effect(c)
-	--Name change into "Flandre the Scarlet Devil's Sister" while on field
+	--This card's name becomes "Flandre the Scarlet Devil's Sister" while on the field
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -9,7 +10,7 @@ function s.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(89155913)
 	c:RegisterEffect(e1)
-    --Special Summon
+    --Special Summon this card from the GY or hand
     local e2=Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id,0))
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -37,21 +38,23 @@ function s.initial_effect(c)
     e3:SetOperation(s.desop)
     c:RegisterEffect(e3)
 end
-s.listed_names={89155913,11091144}
+s.listed_names={89155913,11091144} --"Flandre the Scarlet Devil's Sister", "Remilia the Scarlet Devil"
 s.listed_series={0x322}
 function s.cfilter(c)
+    --"Remilia the Scarlet Devil"
     return (c:IsFaceup() or c:IsLocation(LOCATION_GRAVE)) and c:IsCode(11091144)
 end
 function s.condition(e,tp,eg,ep,ev,re,r,rp)
     return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_ONFIELD+LOCATION_GRAVE,0,1,nil)
 end
+--e2 effect code
 function s.spfilter(c,tp)
     return c:IsReason(REASON_BATTLE|REASON_EFFECT) 
         and c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
-    return s.condition(e,tp,eg,ep,ev,re,r,rp) and eg:IsExists(s.spfilter,1,nil,tp) and (not eg:IsContains(c) or c:IsLocation(LOCATION_HAND))
+    return s.condition(e,tp,eg,ep,ev,re,r,rp) and eg:IsExists(s.spfilter,1,nil) and (not eg:IsContains(c) or c:IsLocation(LOCATION_HAND))
 end
 function s.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
     local c=e:GetHandler()
@@ -64,10 +67,12 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
         Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
     end
 end
+--e3 effect code
 function s.descon(e,tp,eg,ep,ev,re,r,rp)
     return Duel.IsMainPhase() and s.condition(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.desfilter(c)
+    --"Scarlet" Quick-Play Spell
     return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsAbleToDeckAsCost()
 end
 function s.descost(e,tp,eg,ep,ev,re,r,rp,chk)
