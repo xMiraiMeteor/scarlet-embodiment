@@ -1,4 +1,5 @@
 --Scarlet Devil Mansion
+--紅魔館
 local s,id=GetID()
 function s.initial_effect(c)
     --Activate
