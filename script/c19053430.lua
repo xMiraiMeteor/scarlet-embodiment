@@ -1,4 +1,5 @@
 --Remilia the Eternal Young Scarlet Moon
+--永遠のスカーレット幼き月レミリア
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
