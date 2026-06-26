@@ -1,4 +1,5 @@
 --Scarlet Sign "Scarlet Meister"
+--紅符「スカーレットマイスタ」
 local s,id=GetID()
 function s.initial_effect(c)
 	--Negate cards up to the number of DARK Zombie monsters you control

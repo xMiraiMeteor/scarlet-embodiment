@@ -1,4 +1,5 @@
 --Patchouli the Scarlet Librarian
+--スカーレット司書パチュリー
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()

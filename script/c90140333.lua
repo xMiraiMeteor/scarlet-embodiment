@@ -1,4 +1,5 @@
 --Sakuya the Maid of the Scarlet Devil
+--スカーレット悪魔のメイド咲夜
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()

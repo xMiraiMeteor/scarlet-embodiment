@@ -1,4 +1,5 @@
 --Scarlet Nights
+--スカーレット・ナイト
 local s,id=GetID()
 function s.initial_effect(c)
     --Fusion Summon 1 DARK Fusion Monster

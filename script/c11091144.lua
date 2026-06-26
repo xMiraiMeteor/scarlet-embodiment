@@ -1,5 +1,5 @@
 --Remilia the Scarlet Devil
---スカーレットデビルレミリア
+--スカーレット悪魔レミリア
 local s,id=GetID()
 function s.initial_effect(c)
 	--Cannot be destroyed by monster effects
