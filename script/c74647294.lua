@@ -25,8 +25,9 @@ function s.initial_effect(c)
     --Special Summon
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e3:SetCode(EVENT_LEAVE_FIELD)
+	e3:SetCode(EVENT_DESTROYED)
 	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_FZONE)
 	e3:SetCountLimit(1)
@@ -64,10 +65,11 @@ function s.indtg(e,c)
     return c:IsSpellTrap() and c:IsFacedown()
 end
 --e3 effect code
-function s.spcfilter(c,tp,rp)
+function s.spcfilter(c,tp)
     --DARK monster
-	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp) and c:GetPreviousAttributeOnField()&ATTRIBUTE_DARK~=0
-		and (c:IsReason(REASON_BATTLE) or (rp~=tp and c:IsReason(REASON_EFFECT)))
+	return c:GetPreviousControler()==tp and c:IsPreviousLocation(LOCATION_MZONE) and c:IsReason(REASON_DESTROY)
+		and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT))
+		and c:IsAttribute(ATTRIBUTE_DARK) and c:IsPreviousPosition(POS_FACEUP)
 end
 function s.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(s.spcfilter,1,nil,tp,rp)
