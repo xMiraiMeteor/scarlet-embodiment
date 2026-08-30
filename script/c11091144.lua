@@ -1,5 +1,5 @@
 --Remilia the Scarlet Devil
---スカーレット悪魔レミリア
+--スカーレット悪魔 レミリア
 local s,id=GetID()
 function s.initial_effect(c)
 	--Cannot be destroyed by monster effects
@@ -14,15 +14,14 @@ function s.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e2:SetCode(EVENT_SUMMON_SUCCESS)
 	e2:SetProperty(EFFECT_FLAG_DELAY)
 	e2:SetCountLimit(1,id)
 	e2:SetTarget(s.pltg)
 	e2:SetOperation(s.plop)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
-	e3:SetCode(EVENT_DESTROYED)
-	e3:SetCondition(function(e) return e:GetHandler():IsReason(REASON_EFFECT) end)
+	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
     --Add 1 "Flandre the Scalet Devil's Sister" or 1 card that mentions it from your Deck to your hand
 	local e4=Effect.CreateEffect(c)
