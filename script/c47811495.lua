@@ -1,9 +1,9 @@
 --Patchouli the Scarlet Librarian
---スカーレット司書パチュリー
+--スカーレット司書 パチュリー
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
-	--Link Material: 1 non-Link DARK monster
+	--Link Material: 1 Level 4 or lower DARK monster
 	Link.AddProcedure(c,s.matfilter,1,1)
 	--Add 1 "Scarlet" Spell/Trap from your Deck to your hand
 	local e1=Effect.CreateEffect(c)
@@ -34,7 +34,7 @@ end
 s.listed_series={0x322}
 --Material check
 function s.matfilter(c,lc,sumtype,tp)
-	return c:IsAttribute(ATTRIBUTE_DARK,lc,sumtype,tp) and not c:IsType(TYPE_LINK,lc,sumtype,tp)
+	return c:IsLevelBelow(4) and c:IsAttribute(ATTRIBUTE_DARK,lc,sumtype,tp)
 end
 --e1 effect code
 function s.thcon(e,tp,eg,ep,ev,re,r,rp)
