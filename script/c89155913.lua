@@ -1,5 +1,5 @@
 --Flandre the Scarlet Devil's Sister
---スカーレット悪魔の妹フランドール
+--スカーレット悪魔の妹 フランドール
 local s,id=GetID()
 function s.initial_effect(c)
 	--Cannot be destroyed by Spell/Trap effects
