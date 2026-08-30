@@ -1,5 +1,5 @@
 --Hong Meiling the Scarlet Gatekeeper
---スカーレット門番紅美鈴
+--スカーレット門番 紅美鈴
 local s,id=GetID()
 function s.initial_effect(c)
 	--Cannot attack directly 
