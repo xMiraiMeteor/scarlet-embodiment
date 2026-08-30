@@ -1,5 +1,5 @@
 --Flandre the Diabolic Scarlet Wave
---恐ろしいのスカーレット波動フランドール
+--恐ろしいのスカーレット波動 フランドール
 local s,id=GetID()
 function s.initial_effect(c)
 	--This card's name becomes "Flandre the Scarlet Devil's Sister" while on the field
