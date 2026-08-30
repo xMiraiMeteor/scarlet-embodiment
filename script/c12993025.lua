@@ -1,5 +1,5 @@
 --Flandre the Devil of Scarlet Blood
---スカーレット血液の悪魔フランドール
+--スカーレット血液の悪魔 フランドール
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
