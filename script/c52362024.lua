@@ -1,5 +1,5 @@
 --Koakuma the Scarlet Assistant
---スカーレットアシスタント小悪魔
+--スカーレットアシスタント 小悪魔
 local s,id=GetID()
 function s.initial_effect(c)
     --Special Summon from hand
