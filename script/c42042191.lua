@@ -1,5 +1,5 @@
 --The Scarlet Devil Sisters
---スカーレット・デビル・シスターズ
+--スカーレットデビルシスターズ
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
