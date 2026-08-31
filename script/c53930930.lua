@@ -18,7 +18,7 @@ function s.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetCategory(CATEGORY_DESTROY+CATEGORY_REMOVE)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
-	e3:SetCode(EVENT_TO_GRAVE)
+	e3:SetCode(EVENT_LEAVE_FIELD)
 	e3:SetCondition(s.rmcon)
 	e3:SetTarget(s.rmtg)
 	e3:SetOperation(s.rmop)
@@ -63,7 +63,7 @@ end
 --e3 effect code
 function s.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_SZONE)
+	return c:IsPreviousPosition(POS_FACEUP)
 end
 function s.rmtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -99,21 +99,16 @@ end
 function s.setfilter(c)
 	--"Scarlet" Quick-Play Spell
     return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsSSetable()
+		and not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode,c:GetCode()),tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,nil)
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
         and Duel.IsExistingMatchingCard(s.setfilter,tp,LOCATION_DECK,0,1,nil) end
 end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
-    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
-    local sc=Duel.SelectMatchingCard(tp,s.setfilter,tp,LOCATION_DECK,0,1,1,nil):GetFirst()
-    if sc and Duel.SSet(tp,sc)>0 then
-        local e1=Effect.CreateEffect(e:GetHandler())
-        e1:SetDescription(aux.Stringid(id,2))
-        e1:SetType(EFFECT_TYPE_SINGLE)
-        e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE+EFFECT_FLAG_CLIENT_HINT)
-        e1:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
-        e1:SetReset(RESETS_STANDARD_PHASE_END)
-        sc:RegisterEffect(e1)
-    end
+	if not e:GetHandler():IsRelateToEffect(e) then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
+	local sg=Duel.SelectMatchingCard(tp,s.setfilter,tp,LOCATION_DECK,0,1,1,nil,tp)
+	if #sg==0 then return end
+	Duel.SSet(tp,sg)
 end
