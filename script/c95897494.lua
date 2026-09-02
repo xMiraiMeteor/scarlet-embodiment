@@ -1,5 +1,5 @@
 --Divine Spear "Spear the Gungnir"
---神槍|「スピア・ザ・グングニル」
+--神槍「スピア・ザ・グングニル」
 local s,id=GetID()
 function s.initial_effect(c)
     --Destroy 1 monster your opponent controls, and inflict damage equal to its ATK
