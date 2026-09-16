@@ -96,7 +96,7 @@ function s.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 --e5 effect code
-function s.setfilter(c)
+function s.setfilter(c,tp)
 	--"Scarlet" Quick-Play Spell
     return c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsSSetable()
 		and not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode,c:GetCode()),tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,nil)
