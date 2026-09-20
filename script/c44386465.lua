@@ -1,4 +1,4 @@
---Patchouli the Unmovable Scarlet Librarian
+--Patchouli the Unmoving Scarlet Librarian
 --動かないスカーレット司書 パチュリー
 local s,id=GetID()
 function s.initial_effect(c)
