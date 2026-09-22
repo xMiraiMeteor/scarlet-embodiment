@@ -1,6 +1,6 @@
 # Custom cards for EDOPro by xMiraiMeteor: The "Scarlet" archetype 
 ## About this repository
-This is the repository of the Scarlet archetype custom card pack for EDOPro. If you are looking for the MDPro3 port, use this [Discord invite link](discord.gg/Kt7Zh5ZvuF).<br/>
+This is the repository of the Scarlet archetype custom card pack for EDOPro. If you are looking for the MDPro3 port, use this [Discord invite link](discord.gg/AQv3E9gF3).<br/>
 **I do not own all of the artworks being used here, all credits goes to their respective owners.**
 ### More details
 More information can be found here in this [wiki](https://github.com/xMiraiMeteor/scarlet-embodiment/wiki).
