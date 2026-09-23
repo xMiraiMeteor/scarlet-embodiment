@@ -69,7 +69,7 @@ function s.setcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function s.setfilter(c,e,tp)
     --"Scarlet" Quick-Play Spell
-    return c:IsFaceUp() and c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsSSetable()
+    return c:IsFaceup() and c:IsSetCard(0x322) and c:IsQuickPlaySpell() and c:IsSSetable()
 end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     local c=e:GetHandler()
