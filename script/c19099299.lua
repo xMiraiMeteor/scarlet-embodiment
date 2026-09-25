@@ -30,7 +30,7 @@ function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLinkSummoned()
 end
 function s.atkfilter(c)
-	return c:IsFaceup() and c:HasLevel()
+	return c:IsFaceup() and c:HasLevel() and c:GetAttack()>0
 end
 function s.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsFaceup() end
