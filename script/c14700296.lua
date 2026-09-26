@@ -74,8 +74,8 @@ end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     local c=e:GetHandler()
     if chkc then return chkc:IsLocation(LOCATION_GRAVE|LOCATION_REMOVED) and chkc:IsControler(tp) and s.setfilter(chkc,e,tp) end
-    if chk==0 then return Duel.IsExistingTarget(s.setfilter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,nil,e,tp) 
-        and c:IsAbleToDeck() end
+    if chk==0 then return c:IsAbleToDeck() and and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
+        and Duel.IsExistingTarget(s.setfilter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,nil,e,tp) end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
     local g=Duel.SelectTarget(tp,s.setfilter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,1,nil,e,tp)
     Duel.SetOperationInfo(0,CATEGORY_TODECK,c,1,0,0)
@@ -84,8 +84,8 @@ end
 function s.setop(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()
     local tc=Duel.GetFirstTarget()
-    if c:IsRelateToEffect(e) and aux.NecroValleyFilter()(c) and Duel.SendtoDeck(c,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)~=0 and c:IsLocation(LOCATION_DECK)
-        and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and tc:IsRelateToEffect(e) and aux.NecroValleyFilter()(tc) then
+    if c:IsRelateToEffect(e) and Duel.SendtoDeck(c,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)~=0 and c:IsLocation(LOCATION_DECK)
+        and tc:IsRelateToEffect(e) then
         Duel.SSet(tp,tc)
     end
 end
