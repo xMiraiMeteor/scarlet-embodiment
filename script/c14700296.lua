@@ -74,7 +74,7 @@ end
 function s.settg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
     local c=e:GetHandler()
     if chkc then return chkc:IsLocation(LOCATION_GRAVE|LOCATION_REMOVED) and chkc:IsControler(tp) and s.setfilter(chkc,e,tp) end
-    if chk==0 then return c:IsAbleToDeck() and and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
+    if chk==0 then return c:IsAbleToDeck() and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
         and Duel.IsExistingTarget(s.setfilter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,nil,e,tp) end
     Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
     local g=Duel.SelectTarget(tp,s.setfilter,tp,LOCATION_GRAVE|LOCATION_REMOVED,0,1,1,nil,e,tp)
