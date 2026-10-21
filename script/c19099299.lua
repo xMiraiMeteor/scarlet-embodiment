@@ -4,18 +4,15 @@ function s.initial_effect(c)
 	c:EnableReviveLimit()
     --Link Material: 2 Level 9 or lower monsters
 	Link.AddProcedure(c,aux.FilterBoolFunctionEx(Card.IsLevelBelow,9),2,2)
-    --ATK down
-    local e1=Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id,0))
-    e1:SetCategory(CATEGORY_ATKCHANGE)
-    e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetCountLimit(1,id)
-    e1:SetCondition(s.atkcon)
-    e1:SetTarget(s.atktg)
-    e1:SetOperation(s.atkop)
-    c:RegisterEffect(e1)
+	--You cannot Summon/Set monsters to a zone(s) this card points to
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetCode(EFFECT_FORCE_MZONE)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetTargetRange(1,0)
+	e1:SetValue(function(e,fp,rp,r) return r==LOCATION_REASON_CONTROL and (ZONES_MMZ|ZONES_EMZ)|~(ZONES_MMZ|ZONES_EMZ) or ~e:GetHandler():GetLinkedZone() end)
+	c:RegisterEffect(e1)
     --Cannot attack
     local e2=Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
@@ -24,8 +21,24 @@ function s.initial_effect(c)
     e2:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
     e2:SetTarget(s.antg)
     c:RegisterEffect(e2)
+    --ATK down
+    local e3=Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id,0))
+    e3:SetCategory(CATEGORY_ATKCHANGE)
+    e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3:SetCountLimit(1,id)
+    e3:SetCondition(s.atkcon)
+    e3:SetTarget(s.atktg)
+    e3:SetOperation(s.atkop)
+    c:RegisterEffect(e3)
 end
---e1 effect code
+--e2 effect code
+function s.antg(e,c)
+    return e:GetHandler():GetLinkedGroup():IsContains(c)
+end
+--e3 effect code
 function s.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLinkSummoned()
 end
@@ -50,8 +63,4 @@ function s.atkop(e,tp,eg,ep,ev,re,r,rp)
         e1:SetReset(RESETS_STANDARD_PHASE_END)
         tc:RegisterEffect(e1)
     end
-end
---e2 effect code
-function s.antg(e,c)
-    return e:GetHandler():GetLinkedGroup():IsContains(c)
 end
