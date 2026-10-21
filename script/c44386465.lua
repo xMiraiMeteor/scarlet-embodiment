@@ -58,11 +58,12 @@ function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 	if tc:IsRelateToEffect(e) and Duel.SendtoDeck(tc,nil,SEQ_DECKSHUFFLE,REASON_EFFECT)>0 and tc:IsLocation(LOCATION_DECK) then
 		local sg=Duel.GetMatchingGroup(s.thfilter,tp,LOCATION_DECK|LOCATION_REMOVED,0,nil)
 		if #sg>0 and Duel.SelectYesNo(tp,aux.Stringid(id,1)) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		sg=sg:Select(tp,1,1,nil)
-		Duel.BreakEffect()
-		Duel.BreakEffect()
-		Duel.SendtoHand(sg,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,sg)
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+			sg=sg:Select(tp,1,1,nil)
+			Duel.BreakEffect()
+			Duel.BreakEffect()
+			Duel.SendtoHand(sg,nil,REASON_EFFECT)
+			Duel.ConfirmCards(1-tp,sg)
+		end
 	end
 end
