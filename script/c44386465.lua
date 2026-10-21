@@ -14,7 +14,7 @@ function s.initial_effect(c)
 	e1:SetCondition(s.incon)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
-    --Shuffle 1 1 DARK monster from your GY or banishment into the Deck, then you can add "Scarlet" Spell/Trap from your Deck or banishment
+    --Shuffle 1 DARK monster from your GY or banishment into the Deck, then you can add "Scarlet" Spell/Trap from your Deck or banishment
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetCategory(CATEGORY_TODECK+CATEGORY_TOHAND+CATEGORY_SEARCH)
