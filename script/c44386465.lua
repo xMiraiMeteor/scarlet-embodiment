@@ -51,7 +51,7 @@ function s.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function s.thfilter(c,e,tp)
 	--"Scarlet" Spell/Trap
-	return c:IsSetCard(0x322) and c:IsSpellTrap() and c:IsFaceup() and c:IsAbleToHand()
+	return c:IsSetCard(0x322) and c:IsSpellTrap() and (c:IsLocation(LOCATION_DECK) or c:IsFaceup()) and c:IsAbleToHand()
 end
 function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
