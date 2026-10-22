@@ -1,4 +1,5 @@
 --Cirno the Ice Spirit of the Scarlet Lake
+--スカーレットの湖の氷精 チルノ
 local s,id=GetID()
 function s.initial_effect(c)
 	c:EnableReviveLimit()
